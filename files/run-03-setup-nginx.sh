@@ -2,16 +2,16 @@
 set -o pipefail
 set -o errexit
 set -x
-openssl_release=$(wget -qO- -t1 "https://api.github.com/repos/openssl/openssl/releases/latest" | grep "tag_name" | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/,//g;s/ //g')
+#openssl_release=$(wget -qO- -t1 "https://api.github.com/repos/openssl/openssl/releases/latest" | grep "tag_name" | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/,//g;s/ //g')
 	git clone --recursive https://github.com/aperezdc/ngx-fancyindex
         git clone --recursive https://github.com/arut/nginx-dav-ext-module
         git clone --recursive https://github.com/arut/nginx-rtmp-module
         git clone --recursive https://github.com/openresty/headers-more-nginx-module
         git clone --recursive https://github.com/leev/ngx_http_geoip2_module
         wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz
-	wget https://github.com/openssl/openssl/releases/download/${openssl_release}/${openssl_release}.tar.gz
+	#wget https://github.com/openssl/openssl/releases/download/${openssl_release}/${openssl_release}.tar.gz
         tar xzf nginx-${NGINX_VERSION}.tar.gz
-	tar xzf ${openssl_release}.tar.gz
+	#tar xzf ${openssl_release}.tar.gz
         cd nginx-${NGINX_VERSION}
         bash ./configure \
                 --prefix=/etc/nginx \
@@ -66,7 +66,7 @@ openssl_release=$(wget -qO- -t1 "https://api.github.com/repos/openssl/openssl/re
                 --with-pcre \
                 --with-pcre-jit \
                 --with-cc-opt="-g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fPIC" \
-                --with-ld-opt="-Wl,-z,relro -Wl,-z,now -Wl,--as-needed -pie" \
-		--with-openssl=../${openssl_release}
+                --with-ld-opt="-Wl,-z,relro -Wl,-z,now -Wl,--as-needed -pie"
+		#--with-openssl=../${openssl_release}
         make -j$(nproc)
 	make -j$(nproc) install
