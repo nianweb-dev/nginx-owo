@@ -1,6 +1,6 @@
 FROM alpine:latest
 ADD files/* /
-ENV NGINX_VERSION="1.22.1"
+ENV NGINX_VERSION="1.24.0"
 ENV NGINX_BUILD_TOOLS="git gcc g++ bash make"
 ENV NGINX_BUILD_REQUIRE="pcre-dev openssl-dev zlib-dev perl-dev libxml2-dev libxslt-dev gd-dev geoip-dev"
 RUN \
